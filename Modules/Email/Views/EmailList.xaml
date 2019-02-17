@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Email.Views.EmailList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid Margin="10">
+        <xctk:BusyIndicator IsBusy="{Binding IsBusy}" BusyContent="Vent mens emails hentes" Foreground="Black">
+            <DockPanel LastChildFill="True">
+                <TabControl DockPanel.Dock="Top">
+                    <TabItem Header="Emails">
+                        <DataGrid SelectionMode="Single" Margin="0 0 0 0" DockPanel.Dock="Left" AllowDrop="False" CanUserDeleteRows="False" IsReadOnly ="True" CanUserAddRows="False" ItemsSource="{Binding Orders}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Key}" Width="50"/>
+                                <DataGridTextColumn Header="Modtaget" Binding="{Binding Date}" Width="155"/>
+                                <DataGridTextColumn Header="Emne" Binding="{Binding Message.Subject}" Width="160"/>
+                                <DataGridTextColumn Header="Fil" Binding="{Binding Message.Attachments[0].Name}" Width="*"/>
+                            </DataGrid.Columns>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem Header="Download" Command="{Binding DownloadCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}" />
+                                    <Separator />
+                                    <MenuItem Header="Slet" Command="{Binding DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                        </DataGrid>
+                    </TabItem>
+                </TabControl>
+            </DockPanel>
+        </xctk:BusyIndicator>
+    </Grid>
+</UserControl>
